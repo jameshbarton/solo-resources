@@ -1,0 +1,109 @@
+apiVersion: devportal.solo.io/v1alpha1
+kind: APIDoc
+metadata:
+  name: petstore-schema
+  namespace: default
+spec:
+  ## specify the type of schema provided in this APIDoc.
+  ## openApi is only option at this time.
+  openApi:
+    content:
+      # we use a fetchUrl here to tell the Gloo Portal
+      # to fetch the schema contents directly from the petstore service.
+      # 
+      # configmaps and inline strings are also supported.
+      fetchUrl: http://petstore.default:8080/swagger.json
+
+---
+
+apiVersion: devportal.solo.io/v1alpha1
+kind: APIProduct
+metadata:
+  name: petstore-product
+  namespace: default
+
+spec:
+  displayInfo: 
+    description: Petstore Product
+    title: Petstore Product    
+    image:
+      fetchUrl: https://i.imgur.com/EXbBN1a.jpg
+    
+  # Specify one or more version objects that will each include a list
+  # of APIs that compose the version and routing for the version  
+  versions:
+  - name: v1
+    apis:
+    # Specify the API Doc(s) that will be included in the Product
+    # each specifier can include a list of individual operations
+    # to import from the API Doc.
+    #
+    # If none are listed, all the 
+    # operations will be imported from the doc. 
+    - apiDoc:
+        name: petstore-schema
+        namespace: default
+  
+    # Each imported operation must have a 'route' associated with it.
+    # Routes can be specified on each imported operation, in the API Doc itself.
+    # The Default Route provided here will be used for any operations which do not have a route defined.
+    # A route must be provided for every Operation to enable routing for an API Product.  
+    defaultRoute:
+      inlineRoute:
+        backends:
+        - kube:
+            name: petstore
+            namespace: default
+            port: 8080
+    tags:
+      stable: {}
+
+---
+
+apiVersion: devportal.solo.io/v1alpha1
+kind: Environment
+metadata:
+  name: dev
+  namespace: default
+spec:
+  domains:
+  - api.example.com
+  # If you are using Gloo Edge and the Gateway is listening on a port other than 80, 
+  # you need to include a domain in this format: <DOMAIN>:<PORT>.
+  # In this example we expect the Gateway to listen on port 32000.
+  - api.example.com:32000
+  displayInfo:
+    description: This environment is meant for developers to deploy and test their APIs.
+    displayName: Development
+  apiProducts:
+  - name: petstore-product
+    namespace: default
+    publishedVersions:
+    - name: v1
+
+---
+
+apiVersion: devportal.solo.io/v1alpha1
+kind: Portal
+metadata:
+  name: petstore-portal
+  namespace: default
+spec:
+  displayName: Petstore Portal
+  description: The Gloo Portal for the Petstore API
+  banner:
+    fetchUrl: https://i.imgur.com/EXbBN1a.jpg
+  favicon:
+    fetchUrl: https://i.imgur.com/QQwlQG3.png
+  primaryLogo:
+    fetchUrl: https://i.imgur.com/hjgPMNP.png
+  customStyling: {}
+  staticPages: []
+
+  domains:
+  - petstore.example.com
+
+  # This will include all API product of the environment in the portal
+  publishedEnvironments:
+  - name: dev
+    namespace: default
