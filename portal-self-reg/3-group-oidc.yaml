@@ -1,0 +1,18 @@
+apiVersion: devportal.solo.io/v1alpha1
+kind: Group
+metadata:
+  name: oidc-group
+  namespace: default
+spec:
+  accessLevel:
+    apiProducts:
+    - name: petstore-product  # identify APIProducts accessible to this group
+      namespace: default
+      environments:
+      - name: dev  # identify Environments in which this APIProduct is accessible to this portal
+        namespace: default
+    portals:
+    - name: petstore-portal   # identify Portals that will be accessible to this group
+      namespace: default
+  oidcGroup:
+    groupName: PetstoreUsers  # identifies OIDC group that this group represents

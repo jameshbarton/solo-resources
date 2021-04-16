@@ -30,7 +30,7 @@ spec:
     # Example: https://dev-2933640.okta.com/oauth2/default/.well-known/openid-configuration
     issuer: https://dev-2933640.okta.com/oauth2/default 
 
-  # This will include all API product of the environment in the portal
+  # This will include all API products of the environment in this portal
   publishedEnvironments:
   - name: dev
     namespace: default
