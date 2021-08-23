@@ -1,7 +1,7 @@
 apiVersion: portal.gloo.solo.io/v1beta1
 kind: APIDoc
 metadata:
-  name: petstore-schema
+  name: httpbin-schema
   namespace: default
 spec:
   ## specify the type of schema provided in this APIDoc.
@@ -12,4 +12,4 @@ spec:
       # to fetch the schema contents directly from the petstore service.
       # 
       # configmaps and inline strings are also supported.
-      fetchUrl: http://petstore.default:8080/swagger.json
+      fetchUrl: https://raw.githubusercontent.com/solo-io/solo-blog/main/zero-to-gateway/httpbin-openapi.json

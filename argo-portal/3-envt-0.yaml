@@ -9,25 +9,9 @@ spec:
   displayInfo:
     description: This environment is meant for developers to deploy and test their APIs.
     displayName: Development
-  parameters:
-    usagePlans:
-      basic:
-        displayName: Basic plan with API key auth
-        authPolicy:
-          apiKey: { }
-        rateLimit:
-          requestsPerUnit: 3
-          unit: MINUTE
   apiProducts:
   - namespaces:
-    - "*"
-    labels:
-    - key: app
-      operator: Equals
-      values:
-      - petstore
-    versions:
-      tags:
-      - stable
-    usagePlans:
-    - basic
+    - default
+    names:
+    - httpbin-product
+
