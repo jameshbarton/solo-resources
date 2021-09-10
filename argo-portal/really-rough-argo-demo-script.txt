@@ -1,0 +1,83 @@
+8/23/2021 Argo Demo
+
+Working directory: ~/git/solo-resources/argo-portal
+
+Prerequisite: User and Group already setup per docs:
+https://docs.solo.io/gloo-portal/latest/guides/users_groups/
+
+https://argo-cd.readthedocs.io/en/stable/getting_started/
+
+% kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+namespace/argocd created
+customresourcedefinition.apiextensions.k8s.io/applications.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/appprojects.argoproj.io created
+…
+
+Argo UI
+kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+
+Portal Admin UI
+kubectl port-forward -n gloo-portal svc/gloo-portal-admin-server 8081:8080 &
+
+Install ArgoCD CLI
+brew install argocd
+
+Argo Create New Application
+GENERAL
+Application name: petstore
+Project: default
+Manual sync (default)
+SOURCE
+Repo url: https://github.com/jameshbarton/solo-resources.git
+Revision HEAD (default)
+Path: argo-portal
+
+Install first round of Argo artifacts
+These are available at https://github.com/jameshbarton/solo-resources/tree/main/argo-portal
+cp ~/Documents/solo/customer/cbp/demo10/[1-4]* .
+
+Git commit
+Git push
+Argo manual sync
+
+curl -X 'GET' 'http://api.example.com/api/pets' -H 'accept: application/json' -i
+
+
+Add usage plan to petstore
+cp ~/Documents/solo/customer/cbp/demo10/5-envt.yaml ./3-envt.yaml
+
+Git commit
+Git push
+Argo manual sync
+
+This will fail:
+curl -X 'GET' 'http://api.example.com/api/pets' -H 'accept: application/json' -i
+
+Provision API Key:
+
+Show service working on portal UI.
+
+Show service working from CLI.
+curl -X 'GET' 'http://api.example.com/api/pets' -H 'accept: application/json' -H "api-key: MTRhZjMzOGQtNjQ5Yy1hNTE3LTRjMjktYTAyNWRkMmM0NDg2" -i
+This should work now.
+
+Repeat multiple times:
+See 429 error
+
+
+Switch out petstore config for httpbin config:
+These are also available at https://github.com/jameshbarton/solo-resources/tree/main/argo-portal
+cp ~/Documents/solo/customer/cbp/demo10/[6-8]* .
+mv 6-apidoc-httpbin.yaml 1-apidoc.yaml
+mv 7-apiprod-httpbin.yaml 2-apiprod.yaml
+mv 8-envt-httpbin.yaml 3-envt.yaml
+
+Git commit
+Git push
+Argo manual sync
+
+Now produces 404
+curl -X 'GET' 'http://api.example.com/api/pets' -H 'accept: application/json' -i
+
+curl -X 'GET' 'http://api.example.com/get' -H 'accept: application/json' -i
