@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: httpbin-app
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jameshbarton/solo-resources
+    targetRevision: HEAD
+    path: argo-httpbin/cfg
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
