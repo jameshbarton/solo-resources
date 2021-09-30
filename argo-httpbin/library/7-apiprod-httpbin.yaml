@@ -4,7 +4,7 @@ metadata:
   name: httpbin-product
   namespace: default
   labels:
-    app: petstore
+    app: httpbin
 spec:
   displayInfo: 
     description: Httpbin Product

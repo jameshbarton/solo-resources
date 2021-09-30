@@ -1,14 +1,14 @@
 apiVersion: portal.gloo.solo.io/v1beta1
 kind: Environment
 metadata:
-  name: dev
+  name: dev-httpbin
   namespace: default
 spec:
   domains:
-  - api.example.com
+  - api.httpbin.example.com
   displayInfo:
-    description: This environment is meant for developers to deploy and test their APIs.
-    displayName: Development
+    description: This environment is meant for developers to deploy and test their httpbin APIs.
+    displayName: Httpbin Development
   apiProducts:
   - namespaces:
     - default
