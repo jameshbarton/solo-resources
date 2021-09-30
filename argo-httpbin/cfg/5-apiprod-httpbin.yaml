@@ -45,8 +45,8 @@ spec:
                     requestTransformation:
                       transformationTemplate:
                         headers:
-                          hdr-after:
-                            text: 'value {{ header("User-Agent") }}'
+                          after-hdr:
+                            text: 'Agent {{ header("User-Agent") }}'
     # You can add arbitrary tags to an APIProduct version. 
     # Users will be able to search for APIs based on the available tags when they log into a portal application.
     tags:
