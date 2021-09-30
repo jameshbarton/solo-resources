@@ -39,7 +39,7 @@ spec:
           options:
             stagedTransformations:
               early:
-                responseTransforms:
+                requestTransforms:
                   - matcher:
                       prefix: /
                     responseTransformation:
