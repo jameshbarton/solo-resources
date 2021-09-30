@@ -1,0 +1,73 @@
+apiVersion: portal.gloo.solo.io/v1beta1
+kind: APIProduct
+metadata:
+  name: httpbin-product
+  namespace: default
+  labels:
+    app: httpbin
+spec:
+  displayInfo: 
+    description: Httpbin Product
+    title: Httpbin Product
+    
+  # Specify one or more version objects that will each include a list
+  # of APIs that compose the version and routing for the version  
+  versions:
+  - name: v1
+    apis:
+    # Specify the API Doc(s) that will be included in the Product
+    # each specifier can include a list of individual operations
+    # to import from the API Doc.
+    #
+    # If none are listed, all the 
+    # operations will be imported from the doc. 
+    - apiDoc:
+        name: httpbin-schema
+        namespace: default
+  
+    # Each imported operation must have a 'route' associated with it.
+    # Here we define a route that will be used by default for all the selected APIProduct version operations.
+    # You can also set overrides for this route on each individual operation.
+    # A route must be provided for every Operation to enable routing for an API Product.  
+    gatewayConfig:
+      route:
+        inlineRoute:
+          backends:
+          - upstream:
+              name: upstream-httpbin
+              namespace: gloo-system
+          options:
+            stagedTransformations:
+              regular:
+                - requestTransformation:
+                    xsltTransformation:
+                      xslt: |
+                        <?xml version="1.0" encoding="UTF-8"?>
+                          <xsl:stylesheet
+                          xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                          xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                          exclude-result-prefixes="xs math" version="3.0">
+                            <xsl:output indent="yes" omit-xml-declaration="yes" />
+                            <xsl:strip-space elements="*"/>
+                            <xsl:template match="/" xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                              <Envelope >
+                                <Header/>
+                                <Body>
+                                  <Query>
+                                    <xsl:apply-templates select="json-to-xml(.)/*"/>
+                                  </Query>
+                                </Body>
+                              </Envelope>
+                            </xsl:template>
+                            <xsl:template match="map" xpath-default-namespace="http://www.w3.org/2005/xpath-functions"
+                            xmlns:web="http://www.qas.com/OnDemand-2011-03">
+                              <CityQuery><xsl:value-of select="string[@key='cityQuery']" /></CityQuery>
+                            </xsl:template>
+                          </xsl:stylesheet>
+                      nonXmlTransform: true
+                      setContentType: text/xml
+    # You can add arbitrary tags to an APIProduct version. 
+    # Users will be able to search for APIs based on the available tags when they log into a portal application.
+    tags:
+      stable: {}
