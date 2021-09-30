@@ -17,6 +17,7 @@ spec:
           operator: Equals
           values:
           - petstore
+          - httpbin
       environments:
         namespaces:
         - "*"
