@@ -1,14 +1,14 @@
 apiVersion: portal.gloo.solo.io/v1beta1
 kind: APIProduct
 metadata:
-  name: petstore-product
+  name: httpbin-product
   namespace: default
   labels:
-    app: petstore
+    app: httpbin
 spec:
   displayInfo: 
-    description: Petstore Product
-    title: Petstore Product
+    description: Httpbin Product
+    title: Httpbin Product
     
   # Specify one or more version objects that will each include a list
   # of APIs that compose the version and routing for the version  
@@ -22,7 +22,7 @@ spec:
     # If none are listed, all the 
     # operations will be imported from the doc. 
     - apiDoc:
-        name: petstore-schema
+        name: httpbin-schema
         namespace: default
   
     # Each imported operation must have a 'route' associated with it.
@@ -33,10 +33,20 @@ spec:
       route:
         inlineRoute:
           backends:
-          - kube:
-              name: petstore
-              namespace: default
-              port: 8080
+          - upstream:
+              name: upstream-httpbin
+              namespace: gloo-system
+          options:
+            stagedTransformations:
+              early:
+                requestTransforms:
+                  - matcher:
+                      prefix: /
+                    requestTransformation:
+                      transformationTemplate:
+                        headers:
+                          hdr-after:
+                            text: hdr-before
     # You can add arbitrary tags to an APIProduct version. 
     # Users will be able to search for APIs based on the available tags when they log into a portal application.
     tags:
