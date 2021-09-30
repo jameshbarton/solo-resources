@@ -39,14 +39,14 @@ spec:
           options:
             stagedTransformations:
               early:
-                requestTransforms:
+                responseTransforms:
                   - matcher:
                       prefix: /
-                    requestTransformation:
+                    responseTransformation:
                       transformationTemplate:
                         headers:
-                          after-hdr:
-                            text: 'Agent {{ header("User-Agent") }}'
+                          my-error-msg:
+                            text: '{% if header(":status") == "200" %}No Error{% else %}Error Occurred{% endif %}'
     # You can add arbitrary tags to an APIProduct version. 
     # Users will be able to search for APIs based on the available tags when they log into a portal application.
     tags:
