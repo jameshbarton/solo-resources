@@ -11,9 +11,10 @@
       }
     ],
     "paths": {
-      "/": {
+      "/query": {
         "post": {
-          "description": "Auto generated using Swagger Inspector",
+          "description": "Query world cities by string pattern",
+          "operationId": "/query",
           "parameters": [
             {
               "name": "SOAPAction",
