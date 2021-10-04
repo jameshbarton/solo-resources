@@ -67,8 +67,8 @@ spec:
                                 <CityQuery><xsl:value-of select="string[@key='cityQuery']" /></CityQuery>
                               </xsl:template>
                             </xsl:stylesheet>
-                        nonXmlTransform: true
-                        setContentType: text/xml
+                      nonXmlTransform: true     # <<<--- this needs to be indented one more slot
+                      setContentType: text/xml  # <<<--- this needs to be indented one more slot
                     responseTransformation:
                       xsltTransformation:
                         xslt: |
