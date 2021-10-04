@@ -11,10 +11,10 @@
       }
     ],
     "paths": {
-      "/query": {
+      "/": {
         "post": {
           "description": "Query world cities by string pattern",
-          "operationId": "/query",
+          "operationId": "/",
           "parameters": [
             {
               "name": "SOAPAction",

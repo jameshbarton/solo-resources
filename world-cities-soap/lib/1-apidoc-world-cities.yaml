@@ -1,7 +1,7 @@
 apiVersion: portal.gloo.solo.io/v1beta1
 kind: APIDoc
 metadata:
-  name: httpbin-schema
+  name: world-cities-schema
   namespace: default
 spec:
   ## specify the type of schema provided in this APIDoc.
