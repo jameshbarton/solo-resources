@@ -1,0 +1,28 @@
+apiVersion: portal.gloo.solo.io/v1beta1
+kind: Environment
+metadata:
+  name: dev-world-cities
+  namespace: default
+spec:
+  domains:
+  - api.worldcities.example.com
+  displayInfo:
+    description: This environment is meant for developers to deploy and test their world cities API.
+    displayName: World Cities Development
+  apiProducts:
+  - namespaces:
+    - default
+    names:
+    - world-cities-product
+  gatewayConfig:
+    options:
+      cors:
+        allowCredentials: true
+        allowHeaders:
+        - api-key
+        - Authorization
+        - SOAPAction
+        allowOrigin:
+        - http://worldcities.example.com
+        - https://worldcities.example.com
+

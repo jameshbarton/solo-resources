@@ -47,6 +47,13 @@ spec:
                 - 'http://api.worldcities.example.com'
                 - 'http://worldcities.example.com'
             stagedTransformations:
+              early:
+                requestTransforms:
+                  - requestTransformation:
+                      transformationTemplate:
+                        headers:
+                          SOAPAction:
+                            text: 'findCity'
               regular: # any transformation stage is fine here
                 requestTransforms:
                   - requestTransformation:
