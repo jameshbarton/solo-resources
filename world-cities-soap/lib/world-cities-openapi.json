@@ -7,7 +7,7 @@
     },
     "servers": [
       {
-        "url": "http://34.139.213.163:80"
+        "url": "http://api.worldcities.example.com"
       }
     ],
     "paths": {
@@ -61,13 +61,13 @@
           },
           "servers": [
             {
-              "url": "http://34.139.213.163:80"
+              "url": "http://api.worldcities.example.com"
             }
           ]
         },
         "servers": [
           {
-            "url": "http://34.139.213.163:80"
+            "url": "http://api.worldcities.example.com"
           }
         ]
       }
