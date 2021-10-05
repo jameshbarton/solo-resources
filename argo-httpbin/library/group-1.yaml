@@ -14,9 +14,11 @@ spec:
         - "*"
         labels:
         - key: app
-          operator: Equals
+          operator: In
           values:
           - petstore
+          - httpbin
+          - world-cities
       environments:
         namespaces:
         - "*"
