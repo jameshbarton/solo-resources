@@ -44,7 +44,7 @@
           },
           "responses": {
             "200": {
-              "description": "Auto generated using Swagger Inspector",
+              "description": "south-bo response",
               "content": {
                 "application/json": {
                   "schema": {
