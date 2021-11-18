@@ -1,0 +1,26 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: dynamic-vs
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      # We can use the domain "*" to match on any domain, avoiding the need for a host / host header when testing the route.
+      - "*" 
+    routes:
+      - matchers:
+          - prefix: /
+        routeAction:
+          clusterHeader: tenant-upstream
+    options:
+      stagedTransformations:
+        regular:
+          requestTransforms:
+            - requestTransformation:
+                transformationTemplate:
+                  headers:
+                    tenant-upstream:
+                      # upstream naming convention: upstream-name_namespace
+                      text: "tenant-{{ header(\"x-gloo-tenant\") }}-upstream_default" 
+              clearRouteCache: true
