@@ -1,0 +1,21 @@
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: tenant-um-upstream
+  namespace: default
+spec:
+  static:
+    hosts:
+      - addr: httpbin.org
+        port: 80
+---
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: tenant-dois-upstream
+  namespace: default
+spec:
+  static:
+    hosts:
+      - addr: ip-api.com
+        port: 80
