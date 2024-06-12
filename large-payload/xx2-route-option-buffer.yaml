@@ -1,0 +1,16 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteOption
+metadata:
+  name: route-option-httpbin
+  namespace: httpbin
+spec:
+  options:
+    bufferPerRoute:
+      buffer:
+        maxRequestBytes: 1000
+    headerManipulation:
+      requestHeadersToAdd:
+        - header:
+            key: "X-My-Custom-Header"
+            value: "my-custom-value"
+          append: false
